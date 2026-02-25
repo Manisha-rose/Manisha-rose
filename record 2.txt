@@ -1,4 +1,7 @@
+  2. DML COMMANDS 
+a) DML -INSERT 
 
+1. Insert values in EMPLOYEE table. 
 mysql> insert into employee values(1001,'Manisha','Calicut',1997,65441122);
 
 mysql> insert into employee values(1002,'Nila','Thrissur',2001,65771255);
@@ -21,7 +24,7 @@ mysql> select * from employee;
 4 rows in set (0.00 sec)
 
 
-
+2. Insert values in STUDENT table. 
 mysql> insert into student values(1,'Kiran',21,m,'Calicut');
 ERROR 1054 (42S22): Unknown column 'm' in 'field list'
 mysql> insert into student values(1,'Kiran',21,'Calicut');
@@ -44,7 +47,7 @@ mysql> select * from student;
 3 rows in set (0.00 sec)
 
 
-
+3. Insert values in INVOICE database. 
 mysql> use invoice;
 Reading table information for completion of table and column names
 You can turn off this feature to get a quicker startup with -A
@@ -101,36 +104,10 @@ mysql> select * from Product;
 5 rows in set (0.00 sec)
 
 
-
-mysql> UPDATE invoice_master
-    -> set inv_date = '2026-01-4'
-    -> where inv_id = 101;
-Query OK, 1 row affected (0.00 sec)
-Rows matched: 1  Changed: 1  Warnings: 0
-mysql> UPDATE invoice_master
-    -> set inv_date = '2026-01-7'
-    -> where inv_id = 102;
-Query OK, 1 row affected (0.00 sec)
-Rows matched: 1  Changed: 1  Warnings: 0
-
-mysql> UPDATE invoice_master
-    -> set inv_date = '2026-01-14'
-    -> where inv_id = 103;
-Query OK, 1 row affected (0.00 sec)
-Rows matched: 1  Changed: 1  Warnings: 0
-
-mysql> UPDATE invoice_master
-    -> set inv_date = '2026-01-20'
-    -> where inv_id = 104;
-Query OK, 1 row affected (0.00 sec)
-Rows matched: 1  Changed: 1  Warnings: 0
-
-mysql> UPDATE invoice_master
-    -> set inv_date = '2026-01-28'
-    -> where inv_id = 105;
-Query OK, 1 row affected (0.00 sec)
-Rows matched: 1  Changed: 1  Warnings: 0
-
+mysql> insert into invoice_master values(101,1,'2026-01-4');
+mysql> insert into invoice_master values(102,2,'2026-01-7');
+mysql> insert into invoice_master values(103,3,'2026-01-14'),(104,5,'2026-01-20');
+mysql> insert into invoice_master values(105,4,'2026-01-28')
 mysql> select * from invoice_master;
 +--------+---------+------------+
 | inv_id | cust_id | inv_date   |
@@ -166,6 +143,10 @@ mysql> select * from invoice_item;
 |    105 | 1005 |        5 |
 +--------+------+----------+
 
+b) DML - UPDATE 
+
+1. Update the price of a particular product. 
+
 mysql> update Product
     -> set price = 75
     -> where pid = 1002;
@@ -186,7 +167,7 @@ mysql> select * from Product;
 5 rows in set (0.00 sec)
 
 
-
+2. Change the name of city ‘calicut’ to ‘kozhikode’ in the customer table. 
 mysql> update customer
     -> set city = 'Kozhikode'
     -> where id = 2;
@@ -206,7 +187,7 @@ mysql> select * from customer;
 5 rows in set (0.00 sec)
 
 
-
+3. Update all prices with 2% of its original price. 
 mysql> update Product
     -> set price = price + (price *0.02);
 Query OK, 5 rows affected (0.01 sec)
@@ -223,6 +204,9 @@ mysql> select * from Product;
 | 1005 | notebook |  10.20 |
 +------+----------+--------+
 5 rows in set (0.00 sec)
+
+
+4. Change the address, city, phone number of a particular customer. 
 
 mysql> update customer set address = 'river view',     city = 'Wayanad',     ph_no = '7845195241' where id = 4;
 Query OK, 1 row affected (0.00 sec)
@@ -242,7 +226,7 @@ mysql> select * from customer;
 
 
 
-
+5. Change the quantity of a purchased product of inv_id ‘101’
 mysql> update invoice_item
     -> set quantity = 5
     -> where inv_id = 101;
@@ -260,6 +244,11 @@ mysql> select * from invoice_item;
 |    105 | 1005 |        5 |
 +--------+------+----------+
 5 rows in set (0.00 sec)
+
+
+c) DML - DELETE 
+
+1. Delete the record of customer id ‘10001’. 
 
 mysql> delete from invoice_item
     -> where inv_id = 101;
@@ -363,7 +352,7 @@ mysql> select * from invoice_master;
 
 
 
-
+2. Delete all purchase details of items its quantity less than 2. 
 
 mysql> DELETE FROM invoice_item WHERE quantity < 2;
 Query OK, 1 row affected (0.00 sec)
@@ -380,7 +369,7 @@ mysql> select * from invoice_item;
 
 
 
-
+3. Delete the purchase details of product ‘pen’ in the in_id ‘101’
 mysql> delete from invoice_item where inv_id = 106;
 Query OK, 1 row affected (0.00 sec)
 
@@ -399,6 +388,8 @@ mysql> select * from Product;
 +------+----------+--------+
 7 rows in set (0.00 sec)
 
+
+4. Delete details of customer who does not have phone number. 
 
 mysql> DELETE FROM invoice_item
     -> WHERE inv_id IN (
@@ -431,6 +422,8 @@ mysql> select * from customer;
 +----+---------+-------------------+-----------+------------+
 5 rows in set (0.01 sec)
 
+
+5. Delete all records from STUDENT table. 
 mysql> use ksb
 Reading table information for completion of table and column names
 You can turn off this feature to get a quicker startup with -A
@@ -439,7 +432,7 @@ Database changed
 mysql> delete from student;
 Query OK, 3 rows affected (0.00 sec)
 
-
+6. Delete Invoice details of a particular customer "XYZ".
 mysql> DELETE FROM invoice_item
     -> WHERE inv_id IN (
     ->     SELECT inv_id FROM invoice_master
@@ -469,13 +462,17 @@ mysql> select * from customer;
 +----+---------+-------------------+-----------+------------+
 4 rows in set (0.00 sec)
 
+
+
+7. Delete the first two records of INVOICE_ITEM table its purchase quantity is high.
+
 mysql> DELETE FROM INVOICE_ITEM
     -> ORDER BY quantity DESC
     -> LIMIT 2;
 ERROR 1146 (42S02): Table 'invoice.INVOICE_ITEM' doesn't exist
 mysql> delete from invoice_item
     -> order by quantity desc
-    -> limit 3;
+    -> limit 2;
 Query OK, 1 row affected (0.00 sec)
 
 mysql> select * from invoice_item;
